@@ -14,6 +14,10 @@ export default function Home() {
   const [month, setMonth] = useState("09")
   const [year, setYear] = useState("26")
   const [CVC, setCVC] = useState("123")
+  const [warningCardNumber, setWarningCardNumber] = useState("")
+  const [warningMonth, setWarningMonth] = useState("")
+  const [warningYear, setWarningYear] = useState("")
+  const [warningCVC, setWarningCVC] = useState("")
 
 
   useEffect(() => {
@@ -39,7 +43,39 @@ export default function Home() {
   }, [cardNumber, name, month, year, CVC])
 
   const submitForm = () => {
-    setValid((e)=>(!e))
+    let isOk = true
+
+    if (cardNumber.length == 16 && cardNumber != "0000 0000 0000 0000") {
+      setWarningCardNumber("")
+    } else {
+      setWarningCardNumber("incorrect card number")
+      isOk = false
+    }
+
+    if (month.length == 2) {
+      setWarningMonth("")
+    } else {
+      setWarningMonth("incorrect Month")
+      isOk = false
+    }
+
+    if (year.length == 2) {
+      setWarningYear("")
+    } else {
+      setWarningYear("incorrect Year")
+      isOk = false
+    }
+
+    if (CVC.length == 3) {
+      setWarningCVC("")
+    } else {
+      setWarningCVC("incorrect CVC")
+      isOk = false
+    }
+
+    if (isOk) {
+      setValid((e)=>(!e))
+    }
   }
 
   return (
@@ -67,6 +103,7 @@ export default function Home() {
                   Card Number
                 </label>
                 <input className="border-[1px] border-[#D5DBDB] rounded-lg p-2" type="number" maxLength={16} minLength={16} placeholder="e.g. 1234 5678 9123 0000" aria-label="card number input text" required onChange={(e) => {setCardNumber(e.target.value)}} />
+                <p className="text-red-600 text-[0.7rem]">{warningCardNumber}</p>
               </div>
               <div className="flex flex-wrap flex-row justify-start gap-2">
                 <div className="flex flex-col justify-start">
@@ -75,7 +112,9 @@ export default function Home() {
                   </label>
                   <div className="flex flex-wrap flex-row justify-start items-center gap-2">
                     <input className="w-[10vh] border-[1px] border-[#D5DBDB] rounded-lg p-3" type="number" maxLength={2} minLength={2} placeholder="MM" aria-label="month experency date input" required onChange={(e) => {setMonth(e.target.value)}} />
+                    <p className="text-red-600 text-[0.7rem]">{warningMonth}</p>
                     <input className="w-[10vh] border-[1px] border-[#D5DBDB] rounded-lg p-3" type="number" maxLength={2} minLength={2} placeholder="YY" aria-label="year experency date input" required onChange={(e) => {setYear(e.target.value)}} />
+                    <p className="text-red-600 text-[0.7rem]">{warningYear}</p>
                   </div>
                 </div>
                 <div className="flex flex-col flex-wrap">
@@ -83,9 +122,10 @@ export default function Home() {
                     CVC
                   </label>
                   <input className="w-32 border-[1px] border-[#D5DBDB] rounded-lg p-2" type="number" maxLength={3} minLength={3} placeholder="e.g. 123" aria-label="CVC input text" required onChange={(e) => {setCVC(e.target.value)}} />
+                  <p className="text-red-600 text-[0.7rem]">{warningCVC}</p>
                 </div>
               </div>
-              <input className="py-4 w-full bg-[hsl(270,63%,15%)] rounded-lg text-white" type="submit" value="Confirm" aria-label="submit information" />
+              <input className="hover:scale-[95%] py-4 w-full bg-[hsl(270,63%,15%)] rounded-lg text-white" type="submit" value="Confirm" aria-label="submit information" />
             </div>
           </>
         }
